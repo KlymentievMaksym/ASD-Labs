@@ -37,35 +37,88 @@ class towers:
         print(f"Current turn is: {self._turn}")
         if self._turn == 1:
             print(self._first_stick, self._second_stick, self._third_stick, '\n')
-        if self._turn % 2 != 0:
-            # if "=" not in self._second_stick:
-            #     self.visualise(self._second_stick, self._first_stick)
-            #     self.visualise(self._third_stick, self._first_stick)
-            #     self.visualise(self._third_stick, self._second_stick)
-            # else:
-            #     self.visualise(self._first_stick, self._second_stick)
-            #     self.visualise(self._third_stick, self._second_stick)
-            #     self.visualise(self._third_stick, self._first_stick)
+        if self._disk_count % 2 != 0:
             if self._disk_count == 1:
                 self.visualise(self._third_stick, self._first_stick)
-            elif self._turn == self._disk_count-2:#self._disk_count != 2:
+            elif self._disk_count == 3:
                 self.visualise(self._third_stick, self._first_stick)
                 self.visualise(self._second_stick, self._first_stick)
                 self.visualise(self._second_stick, self._third_stick)
-            else:
+                
+                self.visualise(self._third_stick, self._first_stick)
+                self.visualise(self._first_stick, self._second_stick)
+                self.visualise(self._third_stick, self._second_stick)
+                
+                self.visualise(self._third_stick, self._first_stick)
+            elif self._disk_count == 5:
+                self.visualise(self._third_stick, self._first_stick)
+                self.visualise(self._second_stick, self._first_stick)
+                self.visualise(self._second_stick, self._third_stick)
+                
+                self.visualise(self._third_stick, self._first_stick)
+                self.visualise(self._first_stick, self._second_stick)
+                self.visualise(self._third_stick, self._second_stick)
+                
+                self.visualise(self._third_stick, self._first_stick)
+                self.visualise(self._second_stick, self._first_stick)
+                self.visualise(self._second_stick, self._third_stick)
+                self.visualise(self._first_stick, self._third_stick)
+                self.visualise(self._first_stick, self._second_stick)
+                self.visualise(self._second_stick, self._third_stick)
+                
+                self.visualise(self._third_stick, self._first_stick)
+                self.visualise(self._second_stick, self._first_stick)
+                self.visualise(self._second_stick, self._third_stick)
+                
+                self.visualise(self._third_stick, self._first_stick)
+                self.visualise(self._first_stick, self._second_stick)
+                self.visualise(self._third_stick, self._second_stick)
+                
+                self.visualise(self._third_stick, self._first_stick)
+                self.visualise(self._first_stick, self._second_stick)
+                self.visualise(self._second_stick, self._third_stick)
+                self.visualise(self._first_stick, self._third_stick)
+                self.visualise(self._first_stick, self._second_stick)
+                self.visualise(self._third_stick, self._second_stick)
+                
+                self.visualise(self._third_stick, self._first_stick)
+                self.visualise(self._second_stick, self._first_stick)
+                self.visualise(self._second_stick, self._third_stick)
+                
+                self.visualise(self._third_stick, self._first_stick)
+                self.visualise(self._first_stick, self._second_stick)
+                self.visualise(self._third_stick, self._second_stick)
+                
+                self.visualise(self._third_stick, self._first_stick)
+        else:
+            # self.visualise(self._, self._)
+            if self._disk_count == 2:
                 self.visualise(self._second_stick, self._first_stick)
                 self.visualise(self._third_stick, self._first_stick)
                 self.visualise(self._third_stick, self._second_stick)
-        else:
-            # self.visualise(self._, self._)
-            self.visualise(self._third_stick, self._first_stick)
-            self.visualise(self._first_stick, self._second_stick)
-            self.visualise(self._third_stick, self._second_stick)
-            self.visualise(self._third_stick, self._first_stick)
+            elif self._disk_count == 4:
+                self.visualise(self._second_stick, self._first_stick)
+                self.visualise(self._third_stick, self._first_stick)
+                self.visualise(self._third_stick, self._second_stick)
+                
+                self.visualise(self._second_stick, self._first_stick)
+                self.visualise(self._first_stick, self._third_stick)
+                self.visualise(self._second_stick, self._third_stick)
+                
+                self.visualise(self._second_stick, self._first_stick)
+                self.visualise(self._third_stick, self._first_stick)
+                self.visualise(self._third_stick, self._second_stick)
+                self.visualise(self._first_stick, self._second_stick)
+                self.visualise(self._first_stick, self._third_stick)
+                self.visualise(self._third_stick, self._second_stick)
+                
+                self.visualise(self._second_stick, self._first_stick)
+                self.visualise(self._third_stick, self._first_stick)
+                self.visualise(self._third_stick, self._second_stick)
         self._turn += 1
         if len(self._third_stick) != self._disk_count:
             self.start_turn()
             
 # start_towers(4)
 
-towers(3).start_turn()
+towers(5).start_turn()
