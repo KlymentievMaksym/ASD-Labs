@@ -17,63 +17,55 @@ print(lcm(3, 7))
 # Виписати послідовність ходів для перекладання n дисків вежі (n = 2;
 # 3; 4; 5 дисків, використати онлайн гру).
 
-
-def start_towers(disk_count):
-    first_stick = ['='*i for i in range(1, disk_count+1)]
-    first_stick.reverse()
-    towers(disk_count, first_stick)
-    
-    
-def towers(disk_count, first_stick, second_stick=[], third_stick=[], turn=1, miniturn=1):
-
-    def visualise(stick1, stick2, miniturn):
-        print(f"This is miniturn with name: {miniturn}")
+class towers:
+    def __init__(self, disk_count):
+        self._disk_count = disk_count
+        self._first_stick = ['='*i for i in range(1, disk_count+1)]
+        self._first_stick.reverse()
+        self._second_stick = []
+        self._third_stick = []
+        self._turn = 1
+        self._mini_turn = 1
+        
+    def visualise(self, stick1, stick2):
+        print(f"Current miniturn is: {self._mini_turn}") #\nFrom {stick2} to {stick1}S
         stick1 += [stick2.pop(-1)]
-        miniturn += 1
-        print(first_stick, second_stick, third_stick)
-        return miniturn
+        self._mini_turn += 1
+        print(self._first_stick, self._second_stick, self._third_stick, '\n')
     
-    if turn == 1:
-        print(first_stick, second_stick, third_stick)
-    if turn % 2 != 0:
-        # second_stick += [first_stick.pop(-1)]
-        if "=" not in second_stick:
-            miniturn = visualise(second_stick, first_stick, miniturn)
-            # third_stick += [first_stick.pop(-1)]
-            miniturn = visualise(third_stick, first_stick, miniturn)
-            # third_stick += [second_stick.pop(-1)]
-            miniturn = visualise(third_stick, second_stick, miniturn)
+    def start_turn(self):
+        print(f"Current turn is: {self._turn}")
+        if self._turn == 1:
+            print(self._first_stick, self._second_stick, self._third_stick, '\n')
+        if self._turn % 2 != 0:
+            # if "=" not in self._second_stick:
+            #     self.visualise(self._second_stick, self._first_stick)
+            #     self.visualise(self._third_stick, self._first_stick)
+            #     self.visualise(self._third_stick, self._second_stick)
+            # else:
+            #     self.visualise(self._first_stick, self._second_stick)
+            #     self.visualise(self._third_stick, self._second_stick)
+            #     self.visualise(self._third_stick, self._first_stick)
+            if self._disk_count == 1:
+                self.visualise(self._third_stick, self._first_stick)
+            elif self._turn == self._disk_count-2:#self._disk_count != 2:
+                self.visualise(self._third_stick, self._first_stick)
+                self.visualise(self._second_stick, self._first_stick)
+                self.visualise(self._second_stick, self._third_stick)
+            else:
+                self.visualise(self._second_stick, self._first_stick)
+                self.visualise(self._third_stick, self._first_stick)
+                self.visualise(self._third_stick, self._second_stick)
         else:
-            miniturn = visualise(first_stick, second_stick, miniturn)
-            miniturn = visualise(third_stick, second_stick, miniturn)
-            miniturn = visualise(third_stick, first_stick, miniturn)
-    else:
-        # second_stick += [first_stick.pop(-1)]
-        # miniturn = visualise(second_stick, first_stick, miniturn)
-        
-        miniturn = visualise(first_stick, third_stick, miniturn)
-        
-        # second_stick += [third_stick.pop(-1)]
-        # miniturn = visualise(second_stick, third_stick, miniturn)
-        
-        miniturn = visualise(second_stick, third_stick, miniturn)
-        
-        # first_stick += [third_stick.pop(-1)]
-        # miniturn = visualise(first_stick, third_stick, miniturn)
-        
-        miniturn = visualise(second_stick, first_stick, miniturn)
-        
-        # first_stick += [second_stick.pop(-1)]
-        # miniturn = visualise(first_stick, second_stick, miniturn)
-        
-        miniturn = visualise(third_stick, first_stick, miniturn)
-        
-        # third_stick += [second_stick.pop(-1)]
-        # miniturn = visualise(third_stick, second_stick, miniturn)
-    turn += 1
-    if len(third_stick) != disk_count:
-        towers(disk_count, first_stick, second_stick, third_stick, turn, miniturn)
-    # else:
-    #     print(first_stick, second_stick, third_stick)
-    
-start_towers(4)
+            # self.visualise(self._, self._)
+            self.visualise(self._third_stick, self._first_stick)
+            self.visualise(self._first_stick, self._second_stick)
+            self.visualise(self._third_stick, self._second_stick)
+            self.visualise(self._third_stick, self._first_stick)
+        self._turn += 1
+        if len(self._third_stick) != self._disk_count:
+            self.start_turn()
+            
+# start_towers(4)
+
+towers(3).start_turn()
