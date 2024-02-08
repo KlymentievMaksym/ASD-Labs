@@ -67,59 +67,35 @@ class towers:
             print(self._first_stick, self._second_stick, self._third_stick, '\n')
         if self._disk_count % 2 != 0:
             if self._disk_count == 1:
-                self.visualise(self._third_stick, self._first_stick)
+                self.from1to3()
             elif self._disk_count == 3:
-                self.visualise(self._third_stick, self._first_stick)
-                self.visualise(self._second_stick, self._first_stick)
-                self.visualise(self._second_stick, self._third_stick)
+                self.from1to3to2from3to2()
                 
-                self.visualise(self._third_stick, self._first_stick)
-                self.visualise(self._first_stick, self._second_stick)
-                self.visualise(self._third_stick, self._second_stick)
+                self.from1to3from2to1to3()
                 
-                self.visualise(self._third_stick, self._first_stick)
+                self.from1to3()
             elif self._disk_count == 5:
-                self.visualise(self._third_stick, self._first_stick)#
-                self.visualise(self._second_stick, self._first_stick)#
-                self.visualise(self._second_stick, self._third_stick)#
+                self.from1to3to2from3to2()
                 
-                self.visualise(self._third_stick, self._first_stick)##
-                self.visualise(self._first_stick, self._second_stick)##
-                self.visualise(self._third_stick, self._second_stick)##
+                self.from1to3from2to1to3()
                 
-                self.visualise(self._third_stick, self._first_stick)#
-                self.visualise(self._second_stick, self._first_stick)#
-                self.visualise(self._second_stick, self._third_stick)#
+                self.from1to3to2from3to2()
                 
-                self.visualise(self._first_stick, self._third_stick)###
-                self.visualise(self._first_stick, self._second_stick)###
-                self.visualise(self._second_stick, self._third_stick)###
+                self.from3to1to2from2to1()
                 
-                self.visualise(self._third_stick, self._first_stick)#
-                self.visualise(self._second_stick, self._first_stick)#
-                self.visualise(self._second_stick, self._third_stick)#
+                self.from1to3to2from3to2()
                 
-                self.visualise(self._third_stick, self._first_stick)##
-                self.visualise(self._first_stick, self._second_stick)##
-                self.visualise(self._third_stick, self._second_stick)##
+                self.from1to3from2to1to3()
                 
-                self.visualise(self._third_stick, self._first_stick)####
-                self.visualise(self._first_stick, self._second_stick)####
-                self.visualise(self._second_stick, self._third_stick)####
+                self.from1to3from2to1from3to2()
                 
-                self.visualise(self._first_stick, self._third_stick)#####
-                self.visualise(self._first_stick, self._second_stick)#####
-                self.visualise(self._third_stick, self._second_stick)#####
+                self.from3to1from2to1to3()
                 
-                self.visualise(self._third_stick, self._first_stick)#
-                self.visualise(self._second_stick, self._first_stick)#
-                self.visualise(self._second_stick, self._third_stick)#
+                self.from1to3to2from3to2()
                 
-                self.visualise(self._third_stick, self._first_stick)##
-                self.visualise(self._first_stick, self._second_stick)##
-                self.visualise(self._third_stick, self._second_stick)##
+                self.from1to3from2to1to3()
                 
-                self.visualise(self._third_stick, self._first_stick)
+                self.from1to3()
         else:
             # self.visualise(self._, self._)
             if self._disk_count == 2:
