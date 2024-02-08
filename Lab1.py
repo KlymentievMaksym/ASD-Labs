@@ -37,26 +37,43 @@ def towers(disk_count, first_stick, second_stick=[], third_stick=[], turn=1, min
         print(first_stick, second_stick, third_stick)
     if turn % 2 != 0:
         # second_stick += [first_stick.pop(-1)]
-        miniturn = visualise(second_stick, first_stick, miniturn)
-        # third_stick += [first_stick.pop(-1)]
-        miniturn = visualise(third_stick, first_stick, miniturn)
-        # third_stick += [second_stick.pop(-1)]
-        miniturn = visualise(third_stick, second_stick, miniturn)
+        if "=" not in second_stick:
+            miniturn = visualise(second_stick, first_stick, miniturn)
+            # third_stick += [first_stick.pop(-1)]
+            miniturn = visualise(third_stick, first_stick, miniturn)
+            # third_stick += [second_stick.pop(-1)]
+            miniturn = visualise(third_stick, second_stick, miniturn)
+        else:
+            miniturn = visualise(first_stick, second_stick, miniturn)
+            miniturn = visualise(third_stick, second_stick, miniturn)
+            miniturn = visualise(third_stick, first_stick, miniturn)
     else:
         # second_stick += [first_stick.pop(-1)]
-        miniturn = visualise(second_stick, first_stick, miniturn)
-        # second_stick += [third_stick.pop(-1)]
-        miniturn = visualise(second_stick, third_stick, miniturn)
-        # first_stick += [third_stick.pop(-1)]
+        # miniturn = visualise(second_stick, first_stick, miniturn)
+        
         miniturn = visualise(first_stick, third_stick, miniturn)
+        
+        # second_stick += [third_stick.pop(-1)]
+        # miniturn = visualise(second_stick, third_stick, miniturn)
+        
+        miniturn = visualise(second_stick, third_stick, miniturn)
+        
+        # first_stick += [third_stick.pop(-1)]
+        # miniturn = visualise(first_stick, third_stick, miniturn)
+        
+        miniturn = visualise(second_stick, first_stick, miniturn)
+        
         # first_stick += [second_stick.pop(-1)]
-        miniturn = visualise(first_stick, second_stick, miniturn)
+        # miniturn = visualise(first_stick, second_stick, miniturn)
+        
+        miniturn = visualise(third_stick, first_stick, miniturn)
+        
         # third_stick += [second_stick.pop(-1)]
-        miniturn = visualise(third_stick, second_stick, miniturn)
+        # miniturn = visualise(third_stick, second_stick, miniturn)
     turn += 1
     if len(third_stick) != disk_count:
         towers(disk_count, first_stick, second_stick, third_stick, turn, miniturn)
     # else:
     #     print(first_stick, second_stick, third_stick)
     
-start_towers(3)
+start_towers(4)
