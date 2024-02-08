@@ -33,6 +33,34 @@ class towers:
         self._mini_turn += 1
         print(self._first_stick, self._second_stick, self._third_stick, '\n')
     
+    def from1to3(self):
+        self.visualise(self._third_stick, self._first_stick)
+    
+    def from1to3to2from3to2(self):
+        self.visualise(self._third_stick, self._first_stick)#
+        self.visualise(self._second_stick, self._first_stick)#
+        self.visualise(self._second_stick, self._third_stick)#
+        
+    def from1to3from2to1to3(self):
+        self.visualise(self._third_stick, self._first_stick)##
+        self.visualise(self._first_stick, self._second_stick)##
+        self.visualise(self._third_stick, self._second_stick)##
+        
+    def from3to1to2from2to1(self):
+        self.visualise(self._first_stick, self._third_stick)###
+        self.visualise(self._first_stick, self._second_stick)###
+        self.visualise(self._second_stick, self._third_stick)###
+        
+    def from1to3from2to1from3to2(self):
+        self.visualise(self._third_stick, self._first_stick)####
+        self.visualise(self._first_stick, self._second_stick)####
+        self.visualise(self._second_stick, self._third_stick)####
+        
+    def from3to1from2to1to3(self):
+        self.visualise(self._first_stick, self._third_stick)#####
+        self.visualise(self._first_stick, self._second_stick)#####
+        self.visualise(self._third_stick, self._second_stick)#####
+        
     def start_turn(self):
         print(f"Current turn is: {self._turn}")
         if self._turn == 1:
@@ -51,43 +79,45 @@ class towers:
                 
                 self.visualise(self._third_stick, self._first_stick)
             elif self._disk_count == 5:
-                self.visualise(self._third_stick, self._first_stick)
-                self.visualise(self._second_stick, self._first_stick)
-                self.visualise(self._second_stick, self._third_stick)
+                self.visualise(self._third_stick, self._first_stick)#
+                self.visualise(self._second_stick, self._first_stick)#
+                self.visualise(self._second_stick, self._third_stick)#
                 
-                self.visualise(self._third_stick, self._first_stick)
-                self.visualise(self._first_stick, self._second_stick)
-                self.visualise(self._third_stick, self._second_stick)
+                self.visualise(self._third_stick, self._first_stick)##
+                self.visualise(self._first_stick, self._second_stick)##
+                self.visualise(self._third_stick, self._second_stick)##
                 
-                self.visualise(self._third_stick, self._first_stick)
-                self.visualise(self._second_stick, self._first_stick)
-                self.visualise(self._second_stick, self._third_stick)
-                self.visualise(self._first_stick, self._third_stick)
-                self.visualise(self._first_stick, self._second_stick)
-                self.visualise(self._second_stick, self._third_stick)
+                self.visualise(self._third_stick, self._first_stick)#
+                self.visualise(self._second_stick, self._first_stick)#
+                self.visualise(self._second_stick, self._third_stick)#
                 
-                self.visualise(self._third_stick, self._first_stick)
-                self.visualise(self._second_stick, self._first_stick)
-                self.visualise(self._second_stick, self._third_stick)
+                self.visualise(self._first_stick, self._third_stick)###
+                self.visualise(self._first_stick, self._second_stick)###
+                self.visualise(self._second_stick, self._third_stick)###
                 
-                self.visualise(self._third_stick, self._first_stick)
-                self.visualise(self._first_stick, self._second_stick)
-                self.visualise(self._third_stick, self._second_stick)
+                self.visualise(self._third_stick, self._first_stick)#
+                self.visualise(self._second_stick, self._first_stick)#
+                self.visualise(self._second_stick, self._third_stick)#
                 
-                self.visualise(self._third_stick, self._first_stick)
-                self.visualise(self._first_stick, self._second_stick)
-                self.visualise(self._second_stick, self._third_stick)
-                self.visualise(self._first_stick, self._third_stick)
-                self.visualise(self._first_stick, self._second_stick)
-                self.visualise(self._third_stick, self._second_stick)
+                self.visualise(self._third_stick, self._first_stick)##
+                self.visualise(self._first_stick, self._second_stick)##
+                self.visualise(self._third_stick, self._second_stick)##
                 
-                self.visualise(self._third_stick, self._first_stick)
-                self.visualise(self._second_stick, self._first_stick)
-                self.visualise(self._second_stick, self._third_stick)
+                self.visualise(self._third_stick, self._first_stick)####
+                self.visualise(self._first_stick, self._second_stick)####
+                self.visualise(self._second_stick, self._third_stick)####
                 
-                self.visualise(self._third_stick, self._first_stick)
-                self.visualise(self._first_stick, self._second_stick)
-                self.visualise(self._third_stick, self._second_stick)
+                self.visualise(self._first_stick, self._third_stick)#####
+                self.visualise(self._first_stick, self._second_stick)#####
+                self.visualise(self._third_stick, self._second_stick)#####
+                
+                self.visualise(self._third_stick, self._first_stick)#
+                self.visualise(self._second_stick, self._first_stick)#
+                self.visualise(self._second_stick, self._third_stick)#
+                
+                self.visualise(self._third_stick, self._first_stick)##
+                self.visualise(self._first_stick, self._second_stick)##
+                self.visualise(self._third_stick, self._second_stick)##
                 
                 self.visualise(self._third_stick, self._first_stick)
         else:
