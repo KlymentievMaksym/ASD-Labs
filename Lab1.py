@@ -3,15 +3,16 @@
 
 def gcd(num1, num2):
     if num2 == 0:
-        return num1
+        return abs(num1)
     return gcd(num2, num1%num2)
 
 
 def lcm(num1, num2):
-    return num1*num2/gcd(num1, num2)
+    return abs(num1*num2)/gcd(num1, num2)
 
 
 print(lcm(3, 7))
+print(lcm(-3, -7))
 
 # 14. Реалізувати алгоритм для розв’язання задачі «Ханойські вежі».
 # Виписати послідовність ходів для перекладання n дисків вежі (n = 2;
