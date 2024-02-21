@@ -1,23 +1,44 @@
 import numpy as np
+import random
+import timeit
 
 
 # Бульбашки
-def sort_bubble(lst):
-    is_not_changed = False
+def sort_bubble(lst, killer=1, moves=0, compares=0):
     was_changed = False
-    while not is_not_changed:
-        for index in range(len(lst)-1):
-            if lst[index] > lst[index+1]:
-                lst[index], lst[index+1] = lst[index+1], lst[index]
-                was_changed = True
-        if not was_changed :
-            is_not_changed = True
-        was_changed = False
+    for index in range(len(lst)-killer):
+        compares += 1
+        if lst[index] > lst[index+1]:
+            lst[index], lst[index+1] = lst[index+1], lst[index]
+            moves += 1
+            was_changed = True
+    if not was_changed :
+        return moves, compares
+    else:
+        return sort_bubble(lst, killer+1, moves, compares)
 
 
 lst = [12, 13, 414, -13, 0, 3232, 32.4, 0.4]
-sort_bubble(lst)
-print(lst)
+time = timeit.timeit(lambda: sort_bubble(lst.copy()), number=1000)
+moves, compares = sort_bubble(lst)
+n = len(lst)
+print(f"List: {lst} \nLen is: {n} \nTheoretical average Moves: {n*(n-1)/4}, Theoretical Compares: {n*(n-1)/2} \nMoves used: {moves}, Compares used: {compares} \ntime used: {time}\n")
+
+
+## For Shell sort
+def insertion_sort(lst):
+    n = len(lst)
+      
+    if n <= 1:
+        return
+ 
+    for i in range(1, n):
+        key = lst[i]
+        j = i-1
+        while j >= 0 and lst[j] > key:
+            lst[j+1] = lst[j]
+            j -= 1
+        lst[j+1] = key 
 
 
 # метод Шелла
