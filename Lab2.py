@@ -2,29 +2,36 @@ import numpy as np
 import random
 import timeit
 
+numbers = [100, 1000, 10000]
+
 
 # Бульбашки
-def sort_bubble(lst, killer=1, moves=0, compares=0):
-    was_changed = False
-    for index in range(len(lst)-killer):
-        compares += 1
-        if lst[index] > lst[index+1]:
-            lst[index], lst[index+1] = lst[index+1], lst[index]
-            moves += 1
-            was_changed = True
-    if not was_changed :
-        return moves, compares
-    else:
-        return sort_bubble(lst, killer+1, moves, compares)
+def sort_bubble(lst):
+    killer=1
+    moves=0
+    compares=0
+    was_changed = True
+    while was_changed:
+        was_changed  = False
+        for index in range(len(lst)-killer):
+            compares += 1
+            if lst[index] > lst[index+1]:
+                lst[index], lst[index+1] = lst[index+1], lst[index]
+                moves += 1
+                was_changed = True
+        killer += 1
+        if not was_changed :
+            return moves, compares
 
 
 # lst = [12, 13, 414, -13, 0, 3232, 32.4, 0.4]
-lst = [random.randint(-1000, 1000) for i in range(100)]
+for number in numbers:
+    lst = random.sample(range(-10*number, 10*number), number)
 
-time = timeit.timeit(lambda: sort_bubble(lst.copy()), number=1000)
-moves, compares = sort_bubble(lst)
-n = len(lst)
-print(f"List: {lst} \nLen is: {n} \nTheoretical average Moves: {n*(n-1)/4}, Theoretical Compares: {n*(n-1)/2} \nMoves used: {moves}, Compares used: {compares} \ntime used: {time}\n")
+    time = timeit.timeit(lambda: sort_bubble(lst.copy()), number=5)
+    moves, compares = sort_bubble(lst)
+    n = len(lst)
+    print(f"Sorted by bubble random List: {lst} \nLen is: {n} \nTheoretical average Moves: {n*(n-1)/4}, Theoretical Compares: {n*(n-1)/2} \nMoves used: {moves}, Compares used: {compares} \ntime used: {time}\n")
 
 
 ## For Shell sort
@@ -40,7 +47,7 @@ def find_all_ds(m, d):
         k -= 1
 
 # метод Шелла
-def sort_shell(lst, N, showP=False):
+def sort_shell(lst, N):
     m = round(np.log2(N)-1)
     d = []
     find_all_ds(m, d)
@@ -53,8 +60,6 @@ def sort_shell(lst, N, showP=False):
       
     while not_finished:
         j=gap 
-        if showP:
-            print(j)
         while j<n: 
             i=j-gap
             while i>=0: 
@@ -75,11 +80,13 @@ def sort_shell(lst, N, showP=False):
     return moves, compares
 
 
-# lst = [12, 13, 414, -13, 0, 3232, 32.4, 0.4]
-lst = [random.randint(-1000, 1000) for i in range(100)]
-n = len(lst)
+for number in numbers:
+    # lst = [12, 13, 414, -13, 0, 3232, 32.4, 0.4]
 
-time = timeit.timeit(lambda: sort_shell(lst.copy(), n), number=1000)
-moves, compares = sort_shell(lst, n)
+    lst = random.sample(range(-10*number, 10*number), number)
+    n = len(lst)
 
-print(f"List: {lst} \nLen is: {n} \nTheoretical average Moves: {n**(6/5)}, Theoretical Compares: {n*np.log2(n)} \nMoves used: {moves}, Compares used: {compares} \ntime used: {time}\n")
+    time = timeit.timeit(lambda: sort_shell(lst.copy(), n), number=10)
+    moves, compares = sort_shell(lst, n)
+
+    print(f"List: {lst} \nLen is: {n} \nTheoretical average Moves: {n**(6/5)}, Theoretical Compares: {n*np.log2(n)} \nMoves used: {moves}, Compares used: {compares} \ntime used: {time}\n")
