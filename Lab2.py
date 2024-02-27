@@ -18,8 +18,8 @@ def sort_bubble(lst, killer=1, moves=0, compares=0):
         return sort_bubble(lst, killer+1, moves, compares)
 
 
-lst = [12, 13, 414, -13, 0, 3232, 32.4, 0.4]
-# lst = [random.randint(-1000, 1000) for i in range(100)]
+# lst = [12, 13, 414, -13, 0, 3232, 32.4, 0.4]
+lst = [random.randint(-1000, 1000) for i in range(100)]
 
 time = timeit.timeit(lambda: sort_bubble(lst.copy()), number=1000)
 moves, compares = sort_bubble(lst)
