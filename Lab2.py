@@ -19,6 +19,8 @@ def sort_bubble(lst, killer=1, moves=0, compares=0):
 
 
 lst = [12, 13, 414, -13, 0, 3232, 32.4, 0.4]
+# lst = [random.randint(-1000, 1000) for i in range(100)]
+
 time = timeit.timeit(lambda: sort_bubble(lst.copy()), number=1000)
 moves, compares = sort_bubble(lst)
 n = len(lst)
@@ -26,55 +28,58 @@ print(f"List: {lst} \nLen is: {n} \nTheoretical average Moves: {n*(n-1)/4}, Theo
 
 
 ## For Shell sort
-def insertion_sort(lst):
-    n = len(lst)
-      
-    if n <= 1:
-        return
- 
-    for i in range(1, n):
-        key = lst[i]
-        j = i-1
-        while j >= 0 and lst[j] > key:
-            lst[j+1] = lst[j]
-            j -= 1
-        lst[j+1] = key 
-
+def find_all_ds(m, d):
+    k = m
+    i = 0
+    while k != 1:
+        if k == m:
+            d += [1]
+        else:
+            d += [2*d[i] + 1]
+            i += 1
+        k -= 1
 
 # метод Шелла
-def find_h_by_k(k, ki=1):
-    if ki == k:
-        return 1
-    return 2*find_h_by_k(k, ki+1) + 1
+def sort_shell(lst, N, showP=False):
+    m = round(np.log2(N)-1)
+    d = []
+    find_all_ds(m, d)
+    not_finished = True
+    index = -1
+    gap=d[index]
+    
+    moves = 0
+    compares = 0
+      
+    while not_finished:
+        j=gap 
+        if showP:
+            print(j)
+        while j<n: 
+            i=j-gap
+            while i>=0: 
+                compares += 1
+                if lst[i+gap]>lst[i]: 
+                    break
+                else: 
+                    moves += 1
+                    lst[i+gap],lst[i]=lst[i],lst[i+gap] 
+  
+                i=i-gap
+            j+=1
+        if gap == 1:
+            not_finished = False
+        else:
+            index -= 1
+            gap=d[index]
+    return moves, compares
 
-def sort(lst, index, addition):
-    try:
-        if lst[index] > lst[index+addition]:
-            lst[index], lst[index+addition] = lst[index+addition], lst[index]
-    except IndexError:
-        pass
 
+# lst = [12, 13, 414, -13, 0, 3232, 32.4, 0.4]
+lst = [random.randint(-1000, 1000) for i in range(100)]
+n = len(lst)
 
-def sort_shell(lst):
-    n = len(lst)
-    k_max = round(np.log2(n)) - 1
+time = timeit.timeit(lambda: sort_shell(lst.copy(), n), number=1000)
+moves, compares = sort_shell(lst, n)
 
-    k = 1
-    index = 0
-
-    while k != k_max:
-        hk = find_h_by_k(k)
-        while index <= n:
-            last_index = index + hk
-            sort(lst, index, hk)
-            new_index = index
-            while last_index > new_index:
-                new_index += 1
-                sort(lst, new_index, hk)
-            index += hk
-        k += 1
-    hk = 1
-
-lst = [12, 13, 414, -13, 0, 3232, 32.4, 0.4]
-sort_shell(lst)
-print(lst)
+print(f"List: {lst} \nLen is: {n} \nTheoretical average Moves: {n**(6/5)}, Theoretical Compares: {n*np.log2(n)} \nMoves used: {moves}, Compares used: {compares} \ntime used: {time}\n")
