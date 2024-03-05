@@ -7,12 +7,12 @@ numbers = [100, 1000, 10000]
 
 # Бульбашки
 def sort_bubble(lst):
-    killer=1
-    moves=0
-    compares=0
+    killer = 1
+    moves = 0
+    compares = 0
     was_changed = True
     while was_changed:
-        was_changed  = False
+        was_changed = False
         for index in range(len(lst)-killer):
             compares += 1
             if lst[index] > lst[index+1]:
@@ -20,7 +20,7 @@ def sort_bubble(lst):
                 moves += 1
                 was_changed = True
         killer += 1
-        if not was_changed :
+        if not was_changed:
             return moves, compares
 
 
@@ -34,7 +34,7 @@ for number in numbers:
     print(f"Sorted by bubble random List: {lst} \nLen is: {n} \nTheoretical average Moves: {n*(n-1)/4}, Theoretical Compares: {n*(n-1)/2} \nMoves used: {moves}, Compares used: {compares} \ntime used: {time}\n")
 
 
-## For Shell sort
+# For Shell sort
 def find_all_ds(m, d):
     k = m
     i = 0
@@ -46,37 +46,63 @@ def find_all_ds(m, d):
             i += 1
         k -= 1
 
-# метод Шелла
+
+# # метод Шелла
+# def sort_shell(lst, N):
+#     m = round(np.log2(N)-1)
+#     d = []
+#     find_all_ds(m, d)
+#     not_finished = True
+#     index = -1
+#     gap = d[index]
+
+#     moves = 0
+#     compares = 0
+
+#     while not_finished:
+#         j = gap
+#         while j < n:
+#             i = j-gap
+#             while i >= 0:
+#                 compares += 1
+#                 if lst[i+gap] > lst[i]:
+#                     break
+#                 else:
+#                     moves += 1
+#                     lst[i+gap], lst[i] = lst[i], lst[i+gap]
+
+#                 i = i-gap
+#             j += 1
+#         if gap == 1:
+#             not_finished = False
+#         else:
+#             index -= 1
+#             gap = d[index]
+#     return moves, compares
+
+
 def sort_shell(lst, N):
     m = round(np.log2(N)-1)
     d = []
     find_all_ds(m, d)
-    not_finished = True
-    index = -1
-    gap=d[index]
-    
+
     moves = 0
     compares = 0
-      
-    while not_finished:
-        j=gap 
-        while j<n: 
-            i=j-gap
-            while i>=0: 
+
+    for k in range(len(d)-1, -1, -1):
+        for i in range(d[k]+1, N):
+            a = lst[i]
+            j = i
+
+            while j - d[k] >= 1 and lst[j-d[k]] > a:
                 compares += 1
-                if lst[i+gap]>lst[i]: 
-                    break
-                else: 
-                    moves += 1
-                    lst[i+gap],lst[i]=lst[i],lst[i+gap] 
-  
-                i=i-gap
-            j+=1
-        if gap == 1:
-            not_finished = False
-        else:
-            index -= 1
-            gap=d[index]
+                lst[j] = lst[j - d[k]]
+                moves += 1
+                j -= d[k]
+            compares += 1
+
+            lst[j] = a
+            moves += 1
     return moves, compares
 
 
@@ -89,4 +115,4 @@ for number in numbers:
     time = timeit.timeit(lambda: sort_shell(lst.copy(), n), number=10)
     moves, compares = sort_shell(lst, n)
 
-    print(f"List: {lst} \nLen is: {n} \nTheoretical average Moves: {n**(6/5)}, Theoretical Compares: {n*np.log2(n)} \nMoves used: {moves}, Compares used: {compares} \ntime used: {time}\n")
+    print(f"List: {lst} \nLen is: {n} \nTheoretical average Moves: {n**(6/5)}, Theoretical Compares: {n**(6/5)} \nMoves used: {moves}, Compares used: {compares} \ntime used: {time}\n")
