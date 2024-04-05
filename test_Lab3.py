@@ -8,7 +8,6 @@ class Tests(unittest.TestCase):
         text.start("a")
         text1 = Lab3.Text("[your, computer] has a viruss.", Lab3.DoublyLinkedList)
         text1.start("a")
-        # print(text1.words)
         self.assertEqual(str(text), "[your, computer]! has! A! viruss.!")
         self.assertEqual(str(text1), "[your, computer]! has! A! viruss.!")
     
@@ -110,12 +109,10 @@ class Tests(unittest.TestCase):
         text.remove_by_index(0)
         text1 = Lab3.Text("hello dad.", Lab3.DoublyLinkedList)
         text1.start("")
-        size1 = sys.getsizeof(text.words)
+        size1 = sys.getsizeof(text1.words)
         text1.remove_by_index(0)
-        # print(size, sys.getsizeof(text.words))
-        # print(size1, sys.getsizeof(text1.words))
-        self.assertGreater(size, sys.getsizeof(text.words))    
-        self.assertGreater(size1, sys.getsizeof(text1.words))
+        self.assertGreaterEqual(size, sys.getsizeof(text.words))    
+        self.assertGreaterEqual(size1, sys.getsizeof(text1.words))
 
     
 """

@@ -1,3 +1,7 @@
+import timeit
+import sys
+
+
 class Node:
     def __init__(self, item):
         self.item = item
@@ -18,27 +22,21 @@ class DoublyLinkedList:
             self.head = Node(item)
             self.size += 1
             self.tail = self.head
-            # self.head.prev = self.tail
-            # self.tail.next = self.head
         else:
             new_node = Node(item)
             self.size += 1
             new_node.prev = self.tail
             self.tail.next = new_node
             self.tail = new_node
-            # self.tail.next = self.head
-            # self.head.prev = self.tail
 
     def pop(self):
         if self.head is None:
-            # return None
             raise IndexError("Linked List is empty")
         else:
             item = self.tail.item
             if self.head == self.tail:
                 self.head = None
                 self.tail = None
-                # self.size = 0
             else:
                 self.tail = self.tail.prev
                 self.tail.next = None
@@ -53,7 +51,6 @@ class DoublyLinkedList:
         elif index > self.size-1:
             raise IndexError("Index out of range")
         else:
-            # print(index, self.size)
             if index == 0:
                 item = self.head.item
                 self.head = self.head.next
@@ -83,35 +80,27 @@ class DoublyLinkedList:
         else:
             new_node = Node(item)
             if index == 0:
-                # print("HEAD")
                 new_node.next = self.head
                 self.head.prev = new_node
                 self.head = new_node
-                # print(self.head, self.head.next)
             elif index == self.size:
                 self.tail.next = new_node
                 new_node.prev = self.tail
                 self.tail = new_node
-                # print(self.tail.prev, self.tail)
             else:
-                # print("MIDDLE")
                 node = self.head
                 for _ in range(index-1):
                     node = node.next
-                # print(node.prev, node, node.next)
-                # print(new_node)
                 new_node.next = node.next
                 new_node.prev = node
                 node.next = new_node
                 new_node.next.prev = new_node
-                # print(new_node.prev, new_node, new_node.next)
             self.size += 1
             
     
     def __iter__(self):
         node = self.head
         while node:
-            # print(str(node))
             yield str(node)
             node = node.next
 
@@ -142,30 +131,23 @@ class Text:
                     index = self.words.index(word)
                     self.words[index] = self.words[index] + "!"
         else:
-            # print("I WAS CALLED")
-            # print(len(self.text))
             word = ''
             for letter_index in range(len(self.text)):
                 letter = self.text[letter_index]
                 if letter != ' ':
-                    # print("I AM MAKING WORD")
                     if letter_index > 0 and self.text[letter_index-1] == " " and self.text[letter_index] == self.char:
                         word += self.char.capitalize()
                     else:
                         word += letter
-                    # print(word)
                 else:
                     if len(word) % 2 == 1:
                         word += "!"
-                    # print("I AM PUSHING")
-                    # print(word)
                     self.words.push(word)
                     word = ''
             if word != '' and word[-1] == '.':
                 if len(word) % 2 == 1:
                         word += "!"
                 self.words.push(word)
-            # print("I AM DONE PUSHING")
 
     def insert(self, index:int, word:str):
         if self.type is list and index > len(self.words):
@@ -176,7 +158,6 @@ class Text:
             if self.type is not list and len(word) % 2 == 1:
                 word += "!"
             self.words.insert(index, word)
-            # print(self.words)
         else:
             if self.type is list:
                 self.words.insert(len(self.words), word)
@@ -197,15 +178,26 @@ class Text:
             raise IndexError("Index out of range")
     
     def __str__(self) -> str:
-        # if self.type is list:
         return ' '.join(self.words)
-        # else:
-        #     return ""
 
 if __name__ == '__main__':
-    text = Text(input("Enter text: "))
-    text.upper_case(input("Enter letter to capitalise in start of words: "))
+    letter = input("Enter letter to capitalise in start of words: ")
+    txt = input("Enter text: ")
+    print()
+    time = timeit.timeit(lambda: Text(txt, list).start(letter), number=1000)
+    text = Text(txt)
+    text.start(letter)
+    memory = sys.getsizeof(text.words)
     print(text)
+    time1 = timeit.timeit(lambda: Text(txt, DoublyLinkedList).start(letter), number=1000)
+    text = Text(txt, DoublyLinkedList)
+    text.start(letter)
+    memory1 = sys.getsizeof(text.words)
+    print(text)
+    print()
+    print(f"Time for list: {time} and DoublyLinkedList: {time1}")
+    print(f"Memory for list: {memory} and DoublyLinkedList: {memory1}")
+    
 
 """9. Кожне слово тексту, що починається на задану літеру, написати з
 заголовної літери. До всіх слів з непарною кількістю літер дописати знак
@@ -231,25 +223,4 @@ if __name__ == '__main__':
 Потрібно також вивести на екран інформацію про час виконання
 програми при використанні масиву і списку та про об’єм пам’яті, необхідний
 у кожному з цих випадків.
-При тестуванні програми необхідно:
- перевірити правильність введення та виведення даних (зокрема,
-відстежити спроби введення даних, неправильних за типом і
-форматом);
- забезпечити виведення повідомлень за відсутності вхідних даних
-(«пусте введення»);
- перевірити правильність виконання операцій, зокрема, при повністю
-заповненому масиві;
- відстежити вихід за межі масиву;
- забезпечити виведення відповідних повідомлень при спробі
-видалення елемента з пустого списку або масиву;
- відстежити переповнення масиву.
-При представленні тексту у вигляді списку необхідно:
- перевірити можливість вставки елемента в початок, в кінець і в
-середину списку;
- проконтролювати правильність видалення елемента з кінця,
-середини, початку списку;
- відстежити видалення єдиного елемента і видалення елемента з
-порожнього списку;
- перевірити, як звільняється пам’ять при видаленні елемента зі
-списку.
 """
