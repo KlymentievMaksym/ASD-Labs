@@ -11,15 +11,18 @@ class DoublyLinkedList:
     def __init__(self):
         self.head = None
         self.tail = None
+        self.size = 0
 
     def push(self, item):
         if self.head is None:
             self.head = Node(item)
+            self.size += 1
             self.tail = self.head
             # self.head.prev = self.tail
             # self.tail.next = self.head
         else:
             new_node = Node(item)
+            self.size += 1
             new_node.prev = self.tail
             self.tail.next = new_node
             self.tail = new_node
@@ -28,61 +31,176 @@ class DoublyLinkedList:
 
     def pop(self):
         if self.head is None:
-            return None
+            # return None
+            raise IndexError("Linked List is empty")
         else:
             item = self.tail.item
             if self.head == self.tail:
                 self.head = None
                 self.tail = None
+                # self.size = 0
             else:
                 self.tail = self.tail.prev
                 self.tail.next = None
+                self.size -= 1
             return item
+    
+    def pop_by_index(self, index:int):
+        if index == -1:
+            index = self.size-1
+        if self.head is None:
+            raise IndexError("Linked List is empty")
+        elif index > self.size-1:
+            raise IndexError("Index out of range")
+        else:
+            # print(index, self.size)
+            if index == 0:
+                item = self.head.item
+                self.head = self.head.next
+                if self.head is not None:
+                    self.head.prev = None
+                self.size -= 1
+                return item
+            elif index == self.size-1:
+                item = self.tail.item
+                self.tail = self.tail.prev
+                self.tail.next = None
+                self.size -= 1
+                return item
+            else:
+                node = self.head
+                for _ in range(index):
+                    node = node.next
+                item = node.item
+                node.prev.next = node.next
+                node.next.prev = node.prev
+                self.size -= 1
+                return item
+    
+    def insert(self, index:int, item):
+        if index > self.size:
+            raise IndexError("Index out of range")
+        else:
+            new_node = Node(item)
+            if index == 0:
+                # print("HEAD")
+                new_node.next = self.head
+                self.head.prev = new_node
+                self.head = new_node
+                # print(self.head, self.head.next)
+            elif index == self.size:
+                self.tail.next = new_node
+                new_node.prev = self.tail
+                self.tail = new_node
+                # print(self.tail.prev, self.tail)
+            else:
+                # print("MIDDLE")
+                node = self.head
+                for _ in range(index-1):
+                    node = node.next
+                # print(node.prev, node, node.next)
+                # print(new_node)
+                new_node.next = node.next
+                new_node.prev = node
+                node.next = new_node
+                new_node.next.prev = new_node
+                # print(new_node.prev, new_node, new_node.next)
+            self.size += 1
+            
     
     def __iter__(self):
         node = self.head
         while node:
-            yield node
+            # print(str(node))
+            yield str(node)
             node = node.next
 
 
 class Text:
-    def __init__(self, text:str):
+    def __init__(self, text:str, list_type=list):
         if type(text) != str:
             raise TypeError("Text must be a string")
-        self.words = text.lower().split()
+        self.type = list_type
+        if self.type is list:
+            if text != "" and text[-1] != ".":
+                raise ValueError("Text must end with a dot")
+            self.words = text.lower().split()
+        else:
+            if text != "" and text[-1] != ".":
+                raise ValueError("Text must end with a dot")
+            self.words = DoublyLinkedList()
+            self.text = text
     
-    def upper_case(self, char:str):
-        char = char.lower()
-        for word in self.words:
-            if word[0] == char:
-                self.words[self.words.index(word)] = char.capitalize() + word[1:]
-        self.find_and_replace_odd_length_words()
-    
-    def find_and_replace_odd_length_words(self):
-        for word in self.words:
-            if len(word) % 2 == 1:
-                self.words[self.words.index(word)] = self.words[self.words.index(word)] + "!"
-    
+    def start(self, char:str):
+        self.char = char.lower()
+        if self.type is list:
+            for word in self.words:
+                if word[0] == self.char:
+                    self.words[self.words.index(word)] = self.char.capitalize() + word[1:]
+                    word = self.char.capitalize() + word[1:]
+                if len(word) % 2 == 1:
+                    index = self.words.index(word)
+                    self.words[index] = self.words[index] + "!"
+        else:
+            # print("I WAS CALLED")
+            # print(len(self.text))
+            word = ''
+            for letter_index in range(len(self.text)):
+                letter = self.text[letter_index]
+                if letter != ' ':
+                    # print("I AM MAKING WORD")
+                    if letter_index > 0 and self.text[letter_index-1] == " " and self.text[letter_index] == self.char:
+                        word += self.char.capitalize()
+                    else:
+                        word += letter
+                    # print(word)
+                else:
+                    if len(word) % 2 == 1:
+                        word += "!"
+                    # print("I AM PUSHING")
+                    # print(word)
+                    self.words.push(word)
+                    word = ''
+            if word != '' and word[-1] == '.':
+                if len(word) % 2 == 1:
+                        word += "!"
+                self.words.push(word)
+            # print("I AM DONE PUSHING")
+
     def insert(self, index:int, word:str):
-        if index > len(self.words):
+        if self.type is list and index > len(self.words):
             raise IndexError("Index out of range")
         if index != -1:
+            if self.type is not list and word[0].lower() == self.char:
+                word = self.char.capitalize() + word[1:]
+            if self.type is not list and len(word) % 2 == 1:
+                word += "!"
             self.words.insert(index, word)
             # print(self.words)
         else:
-            self.words.insert(len(self.words), word)
+            if self.type is list:
+                self.words.insert(len(self.words), word)
+            else:
+                self.words.insert(self.words.size, word)
     
     def remove_by_index(self, index:int):
         try:
-            self.words.pop(index)
-            if self.words == []:
-                print("Text is empty")
+            if self.type is list:
+                self.words.pop(index)
+                if self.words == []:
+                    print("Text is empty")
+            else:
+                self.words.pop_by_index(index)
+                if self.words.head is None:
+                    print("Text is empty")
         except IndexError:
             raise IndexError("Index out of range")
     
     def __str__(self) -> str:
+        # if self.type is list:
         return ' '.join(self.words)
+        # else:
+        #     return ""
 
 if __name__ == '__main__':
     text = Text(input("Enter text: "))
