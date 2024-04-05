@@ -63,12 +63,29 @@ class Text:
         for word in self.words:
             if len(word) % 2 == 1:
                 self.words[self.words.index(word)] = self.words[self.words.index(word)] + "!"
-                
+    
+    def insert(self, index:int, word:str):
+        if index > len(self.words):
+            raise IndexError("Index out of range")
+        if index != -1:
+            self.words.insert(index, word)
+            # print(self.words)
+        else:
+            self.words.insert(len(self.words), word)
+    
+    def remove_by_index(self, index:int):
+        try:
+            self.words.pop(index)
+            if self.words == []:
+                print("Text is empty")
+        except IndexError:
+            raise IndexError("Index out of range")
+    
     def __str__(self) -> str:
         return ' '.join(self.words)
 
 if __name__ == '__main__':
-    text = input("Enter text: ")
+    text = Text(input("Enter text: "))
     text.upper_case(input("Enter letter to capitalise in start of words: "))
     print(text)
 
