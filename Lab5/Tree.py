@@ -119,7 +119,7 @@ class Tree:
             if move_y == 0:
                 self._draw_edges(edge.left, x-move, y-move, move, to="left")
             else:
-                self._draw_edges(edge.left, x-move, y-move_y, move*0.8, move_y, to="left")
+                self._draw_edges(edge.left, x-move, y-move_y, move*0.9, move_y, to="left")
         if edge.right is not None:
             x_from = x
             y_from = y
@@ -134,7 +134,7 @@ class Tree:
             if move_y == 0:
                 self._draw_edges(edge.right, x+move, y-move, move, to="right")
             else:
-                self._draw_edges(edge.right, x+move, y-move_y, move*0.8, move_y, to="right")
+                self._draw_edges(edge.right, x+move, y-move_y, move*0.9, move_y, to="right")
 
     def _close_turtle(self):
         t.hideturtle()

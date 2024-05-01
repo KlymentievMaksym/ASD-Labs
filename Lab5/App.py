@@ -41,9 +41,19 @@ Can draw tree only once!
         self.tree = t.Tree(self.answear)
         self.start()
 
-    def draw_tree(self, speed=20):
+    def draw_tree(self, move=None, move_y=None, speed=20): # (self, x=0, y=0, move=20, move_y=0, show_print=False, pensize=3, speed=20):
         try:
-            self.tree.draw_edges(speed=speed)
+            if move is not None and move_y is not None:
+                try:
+                    move = int(move)
+                    move_y = int(move_y)
+                except ValueError:
+                    print("Wrong input")
+                    self.start()
+                    return
+                self.tree.draw_edges(move=move, move_y=move_y, speed=speed)
+            else:
+                self.tree.draw_edges(speed=speed)
             time.sleep(len(self.answear)*0.6)
         except AttributeError:
             print("No tree to draw")
