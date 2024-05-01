@@ -21,104 +21,132 @@ class Edge:
 
 
 class Tree:
-    def __init__(self, list_of_chars=[]):
-        self.list = list_of_chars
+    def __init__(self, text=""):
+        
+        self.list = text.split()
         self.edges = None
-        self.rearrange()
+        self._rearrange()
 
-    def find_place(self, char, edge=None):
+    def _find_place(self, char, edge=None, typ=str):
         if edge is None:
             edge = self.edges[0]
 
-        if char <= edge.value:
+        not_int = False
+        
+        try:
+            char = typ(char)
+        except ValueError:
+            not_int = True
+        
+        if char <= [typ(edge.value), edge.value][not_int]:
             if edge.left is None:
                 edge.left = Edge(char)
                 self.edges += [edge.left]
             else:
-                self.find_place(char, edge.left)
+                self._find_place(char, edge.left)
 
-        elif char > edge.value:
+        elif char > [typ(edge.value), edge.value][not_int]:
             if edge.right is None:
                 edge.right = Edge(char)
                 self.edges += [edge.right]
             else:
-                self.find_place(char, edge.right)
+                self._find_place(char, edge.right)
 
-    def rearrange(self):
+    def _rearrange(self):
         for word in self.list:
-            for char in word:
+            if len(self.list) != 1:
+                typ = int
+                try:
+                    word = int(word)
+                except ValueError:
+                    typ = str
                 if self.edges is None:
-                    self.edges = [Edge(char)]
+                    self.edges = [Edge(word)]
                 else:
-                    self.find_place(char)
+                    self._find_place(word, typ=typ)
+            else:
+                for char in word:
+                    if self.edges is None:
+                        self.edges = [Edge(char)]
+                    else:
+                        self._find_place(char)
 
-    def draw_edge(self, edge, radius):
+    def _draw_edge(self, edge, radius):
         t.pendown()
         t.circle(radius)
-        t.write(edge.value.capitalize(), align="center", font=("Arial", 10, "normal"))
+        t.write(edge.value, align="center", font=("Arial", 10, "normal"))
         t.penup()
 
-    def draw_bridge(self, from_where, to_where):
+    def _draw_bridge(self, from_where, to_where):
         t.penup()
         t.setpos(*from_where)
         t.pendown()
         t.setpos(*to_where)
         t.penup()
 
-    def draw_edges(self, edge=None, x=0, y=0, move=30, to=None):
+    def draw_edges(self, x=0, y=0, move=20, move_y=0, show_print=False, pensize=3, speed=20):
+        t.pen(pensize=pensize, speed=speed)
+        t.penup()
+        self._draw_edges(x=x, y=y, move=move, move_y=move_y, show_print=show_print)
+        self._close_turtle()
+
+    def _draw_edges(self, edge=None, x=0, y=0, move=20, move_y=0, to=None, show_print=False):
         radius = 10
         if edge is None:
             edge = self.edges[0]
             t.setpos(x, y)
-            self.draw_edge(edge, radius)
+            self._draw_edge(edge, radius)
         else:
             if to == "left":
                 t.setpos(x, y)
-                self.draw_edge(edge, radius)
+                self._draw_edge(edge, radius)
             elif to == "right":
                 t.setpos(x, y)
-                self.draw_edge(edge, radius)
-
-        print(x, y, "edge:", edge.value)
+                self._draw_edge(edge, radius)
+        if show_print:
+            print(x, y, "edge:", edge.value)
         if edge.left is not None:
             x_from = x
             y_from = y
             from_where = (x_from, y_from)
             x_to = x-move
-            y_to = y-move
+            y_to = y-[move_y, move][move_y == 0]
             to_where = (x_to+radius*np.sqrt(2), y_to+radius*np.sqrt(2))
-            print("Going from", from_where, "to", to_where)
+            if show_print:
+                print("Going from", from_where, "to", to_where)
             
-            self.draw_bridge(from_where, to_where)
-            self.draw_edges(edge.left, x-move, y-move, move, "left")
+            self._draw_bridge(from_where, to_where)
+            if move_y == 0:
+                self._draw_edges(edge.left, x-move, y-move, move, to="left")
+            else:
+                self._draw_edges(edge.left, x-move, y-move_y, move*0.8, move_y, to="left")
         if edge.right is not None:
             x_from = x
             y_from = y
             from_where = (x_from, y_from)
             x_to = x+move
-            y_to = y-move
+            y_to = y-[move_y, move][move_y == 0]
             to_where = (x_to-radius*np.sqrt(2), y_to+radius*np.sqrt(2))
-            print("Going from", from_where, "to", to_where)
-            
-            self.draw_bridge(from_where, to_where)
-            self.draw_edges(edge.right, x+move, y-move, move, "right")
+            if show_print:
+                print("Going from", from_where, "to", to_where)
+
+            self._draw_bridge(from_where, to_where)
+            if move_y == 0:
+                self._draw_edges(edge.right, x+move, y-move, move, to="right")
+            else:
+                self._draw_edges(edge.right, x+move, y-move_y, move*0.8, move_y, to="right")
+
+    def _close_turtle(self):
+        t.hideturtle()
+        # t.done()
 
 
-"""
-t.pendown()
-for char in word:
-    t.forward(10)
-    t.write(char, align="center", font=("Arial", 12, "normal"))
-t.penup()
-"""
+if __name__ == "__main__":
+    
 
-t.pen(pensize=3, speed=20)
-t.penup()
-
-text = "vklmnoijqrstabcupdefghwxyz"
-# text="abcaabs"
-tree = Tree(text.split())
-tree.draw_edges()
-
-t.hideturtle()
-t.done()
+    text = "vklmnoijqrstabcupdefghwxyz"#.upper()
+    # text="abcaabs"
+    # text = "5 15 10 12 13"
+    tree = Tree(text)
+    # tree.draw_edges(move=40, move_y=20)
+    tree.draw_edges()
